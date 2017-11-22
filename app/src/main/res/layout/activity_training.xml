@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:gravity="center"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:text="Training text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3">
+        <Button
+            android:id="@+id/Aid"
+            android:text="A"/>
+        <Button
+            android:id="@+id/Asid"
+            android:text="A#"/>
+        <Button
+            android:id="@+id/Bid"
+            android:text="B"/>
+        <Button
+            android:id="@+id/Cid"
+            android:text="C"/>
+        <Button
+            android:id="@+id/Csid"
+            android:text="C#"/>
+        <Button
+            android:id="@+id/Did"
+            android:text="D"/>
+        <Button
+            android:id="@+id/Dsid"
+            android:text="D#"/>
+        <Button
+            android:id="@+id/Eid"
+            android:text="E"/>
+        <Button
+            android:id="@+id/Fid"
+            android:text="F"/>
+        <Button
+            android:id="@+id/Fsid"
+            android:text="F#"/>
+        <Button
+            android:id="@+id/Gid"
+            android:text="G"/>
+        <Button android:id="@+id/Gsid"
+            android:text="G#"/>
+    </GridLayout>
+
+
+
+</LinearLayout>
