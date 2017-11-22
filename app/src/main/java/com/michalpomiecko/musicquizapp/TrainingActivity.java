@@ -1,5 +1,6 @@
 package com.michalpomiecko.musicquizapp;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +8,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 /**
  * Created by michal on 20.11.17.
@@ -60,6 +60,56 @@ public class TrainingActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void playSound(int id) {
-        Toast.makeText(this, "Playing sound : " + ((Button) findViewById(id)).getText().toString(), Toast.LENGTH_SHORT).show();
+        switch (id) {
+            case R.id.Aid:
+                play(R.raw.a);
+                break;
+            case R.id.Asid:
+                play(R.raw.as);
+                break;
+            case R.id.Bid:
+                play(R.raw.b);
+                break;
+            case R.id.Cid:
+                play(R.raw.c);
+                break;
+            case R.id.Csid:
+                play(R.raw.cs);
+                break;
+            case R.id.Did:
+                play(R.raw.d);
+                break;
+            case R.id.Dsid:
+                play(R.raw.ds);
+                break;
+            case R.id.Eid:
+                play(R.raw.e);
+                break;
+            case R.id.Fid:
+                play(R.raw.f);
+                break;
+            case R.id.Fsid:
+                play(R.raw.fs);
+                break;
+            case R.id.Gid:
+                play(R.raw.g);
+                break;
+            case R.id.Gsid:
+                play(R.raw.gs);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void play(int id) {
+        final MediaPlayer mMediaPlayer =MediaPlayer.create(this, id);
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mMediaPlayer.release();
+            }
+        });
+        mMediaPlayer.start();
     }
 }

@@ -21,21 +21,21 @@ import java.util.Random;
  * Created by michal on 14.11.17.
  */
 
-public class QuizActivity extends AppCompatActivity implements View.OnClickListener{
+public class QuizActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-        String[] notes = new String[] {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#" };
-
-
-    Button ans1,ans2,ans3,ans4;
+    Button ans1, ans2, ans3, ans4;
     TextView progressText;
     Button playButton;
 
     List<MusicQuestion> questionsArray;
+    MusicQuizAppSharedPreferences sharedPreferences;
     MusicQuestion currentMusicQuestion;
     int progressNumber = 0;
     int score = 0;
     int quizLength = 5;
+    int soundsCount = 1;
+    boolean savedResult = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,9 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.quiz_activity);
+
+
+        sharedPreferences = new MusicQuizAppSharedPreferences(this);
 
         ans1 = (Button) findViewById(R.id.ans1Btn);
         ans2 = (Button) findViewById(R.id.ans2Btn);
@@ -58,9 +61,15 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         playButton.setOnClickListener(this);
 
         progressText = (TextView) findViewById(R.id.progressText);
-
+        getOptions();
         generateQuestions();
         fillButtons();
+
+    }
+
+    private void getOptions() {
+        quizLength = sharedPreferences.getQuestionsPerQuiz();
+        soundsCount = sharedPreferences.getSoundsPerQuestion();
 
     }
 
@@ -70,28 +79,35 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         ans2.setText(currentMusicQuestion.getAnswerArray().get(1));
         ans3.setText(currentMusicQuestion.getAnswerArray().get(2));
         ans4.setText(currentMusicQuestion.getAnswerArray().get(3));
-        progressText.setText("Progress: " + (progressNumber+1) + "/" + quizLength);
+        progressText.setText("Progress: " + (progressNumber + 1) + "/" + quizLength);
     }
 
     private void generateQuestions() {
         questionsArray = new ArrayList<>();
 
+        List<String> soundsList = new ArrayList<>(sharedPreferences.getSoundsSet());
 
         ArrayList<Integer> number = new ArrayList<>();
-        for (int i = 0; i < MusicQuestion.NOTES.length; ++i) {
+        for (int i = 0; i < soundsList.size(); ++i) {
             number.add(i);
         }
         Collections.shuffle(number);
         Random random = new Random();
 
 
-        for (int i=0; i<quizLength;i++) {
+        for (int i = 0; i < quizLength; i++) {
 
             Collections.shuffle(number);
             MusicQuestion musicQuestion = new MusicQuestion();
             List<String> answers = new ArrayList<>();
-            for (int j = 0; j <4; j++) {
-                answers.add(MusicQuestion.NOTES[number.get(j)]);
+
+            for (int j = 0; j < 4; j++) {
+                String generatedAnswer = getAnswer(soundsList);
+
+                while (answers.contains(generatedAnswer)) {
+                    generatedAnswer = getAnswer(soundsList);
+                }
+                answers.add(generatedAnswer);
             }
             musicQuestion.setAnswerArray(answers);
             musicQuestion.setCorrectAnswer(answers.get(random.nextInt(4)));
@@ -101,6 +117,19 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private String getAnswer(List<String> list) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < soundsCount; i++) {
+//            stringBuilder.append(OptionsActivity.notes[new Random().nextInt(OptionsActivity.notes.length)]);
+            stringBuilder.append(list.get(new Random().nextInt(list.size())));
+            if (soundsCount != i + 1) {
+                stringBuilder.append(":");
+            }
+        }
+
+        return stringBuilder.toString();
+    }
 
 
     @Override
@@ -120,7 +149,6 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 checkAnswer(R.id.ans4Btn);
                 break;
             case R.id.playBtn:
-
                 playSound();
                 break;
             default:
@@ -130,7 +158,13 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkAnswer(int id) {
         Button button = (Button) findViewById(id);
-
+        if (progressNumber == quizLength-1) {
+            displayResult();
+            if (!savedResult) {
+                saveResult();
+            }
+            return;
+        }
         if (button.getText().equals(currentMusicQuestion.getCorrectAnswer())) {
             score++;
         }
@@ -138,18 +172,26 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         progressInQuiz();
     }
 
+    private void saveResult() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Sounds count: ").append(sharedPreferences.getSoundsPerQuestion()).append(", Questions count: ").append(sharedPreferences.getQuestionsPerQuiz()).append(", Result: ").append(score).append("/").append(quizLength).append("-");
+        Log.e("tag", sb.toString());
+        sharedPreferences.saveResult(sb.toString());
+        savedResult=true;
+    }
+
     private void progressInQuiz() {
         progressNumber++;
-        if (progressNumber < quizLength) {
-            fillButtons();
-        } else {
+        if (progressNumber == quizLength) {
             displayResult();
+        } else {
+            fillButtons();
         }
 
     }
 
     private void displayResult() {
-        Toast.makeText(this, "Result: " + score+"/"+quizLength, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Result: " + score + "/" + quizLength, Toast.LENGTH_SHORT).show();
     }
 
     private void playSound() {

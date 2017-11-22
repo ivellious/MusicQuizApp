@@ -3,23 +3,79 @@ package com.michalpomiecko.musicquizapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by michal on 20.11.17.
  */
 
-public class OptionsActivity extends AppCompatActivity {
+public class OptionsActivity extends AppCompatActivity{
 
 
+    public static String[] notes = {"a","a#","B","C","C#","D","D#","E","F","F#","G","G#" };
+
+
+    CheckBox checkA, checkAs, checkB, checkC, checkCs, checkD, checkDs, checkE, checkF, checkFs, checkG, checkGs;
     TextView soundsPerQuestionText;
     TextView questionsPerQuizText;
     SeekBar soundsPeqQuestionSeekBar;
     SeekBar questionsPerQuizSeekBar;
     MusicQuizAppSharedPreferences optionsPrefs;
+    String [] finalNotes;
+    List<String> notesOptions;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e(OptionsActivity.class.getSimpleName(), "Saved");
+        saveIncludedSounds();
+    }
+
+    private void saveIncludedSounds() {
+        checkCheckbox(checkA,"a");
+        checkCheckbox(checkAs,"a#");
+        checkCheckbox(checkB,"B");
+        checkCheckbox(checkC,"C");
+        checkCheckbox(checkCs,"C#");
+        checkCheckbox(checkD,"D");
+        checkCheckbox(checkDs,"D#");
+        checkCheckbox(checkE,"E");
+        checkCheckbox(checkF,"F");
+        checkCheckbox(checkFs,"F#");
+        checkCheckbox(checkG,"G");
+        checkCheckbox(checkGs,"G#");
+        Set<String> set = new HashSet<>(notesOptions);
+        if (set.size() <4) {
+            return;
+        }
+        optionsPrefs.saveSoundsSet(set);
+        Log.e(OptionsActivity.class.getSimpleName(), "arraylist" + optionsPrefs.getSoundsSet());
+
+    }
+
+    private void checkCheckbox(CheckBox check, String sound) {
+        if (check.isChecked()) {
+            notesOptions.add(sound);
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,28 +83,95 @@ public class OptionsActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_options);
-
         optionsPrefs = new MusicQuizAppSharedPreferences(this);
+        notesOptions = new ArrayList<>();
 
         soundsPeqQuestionSeekBar = (SeekBar) findViewById(R.id.soundsCountBar);
 
         questionsPerQuizSeekBar = (SeekBar) findViewById(R.id.questionsCountBar);
         soundsPerQuestionText = (TextView) findViewById(R.id.soundsCountBarProgress);
         questionsPerQuizText = (TextView) findViewById(R.id.questionsCountBarProgress);
+        initCheckBoxes();
 
         setValues();
-
         setSeekBarListeners();
 
+        initSoundsOptions();
 
+    }
+
+    private void initSoundsOptions() {
+        Set<String> set = optionsPrefs.getSoundsSet();
+        for (String soundString : set) {
+            initializeSoundOption(soundString);
+        }
+    }
+
+    private void initializeSoundOption(String soundString){
+
+        switch (soundString) {
+            case "a":
+                checkA.setChecked(true);
+                break;
+            case "a#":
+                checkAs.setChecked(true);
+                break;
+            case "B":
+                checkB.setChecked(true);
+                break;
+            case "C":
+                checkC.setChecked(true);
+                break;
+            case "C#":
+                checkCs.setChecked(true);
+                break;
+            case "D":
+                checkD.setChecked(true);
+                break;
+            case "D#":
+                checkDs.setChecked(true);
+                break;
+            case "E":
+                checkE.setChecked(true);
+                break;
+            case "F":
+                checkF.setChecked(true);
+                break;
+            case "F#":
+                checkFs.setChecked(true);
+                break;
+            case "G":
+                checkG.setChecked(true);
+                break;
+            case "G#":
+                checkA.setChecked(true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void initCheckBoxes() {
+        checkA = (CheckBox) findViewById(R.id.checkA);
+        checkAs = (CheckBox) findViewById(R.id.checkAs);
+        checkB = (CheckBox) findViewById(R.id.checkB);
+        checkC = (CheckBox) findViewById(R.id.checkC);
+        checkCs = (CheckBox) findViewById(R.id.checkCs);
+        checkD = (CheckBox) findViewById(R.id.checkD);
+        checkDs = (CheckBox) findViewById(R.id.checkDs);
+        checkE = (CheckBox) findViewById(R.id.checkE);
+        checkF = (CheckBox) findViewById(R.id.checkF);
+        checkFs = (CheckBox) findViewById(R.id.checkFs);
+        checkG = (CheckBox) findViewById(R.id.checkG);
+        checkGs = (CheckBox) findViewById(R.id.checkGs);
     }
 
     private void setSeekBarListeners() {
         soundsPeqQuestionSeekBar.setOnSeekBarChangeListener(new MusicSeekBarListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress==0) {
-                    progress=1;
+                if (progress == 0) {
+                    progress = 1;
                 }
                 optionsPrefs.saveSoundsPerQuestion(progress);
                 setSoundsCountValues();
@@ -59,8 +182,8 @@ public class OptionsActivity extends AppCompatActivity {
         questionsPerQuizSeekBar.setOnSeekBarChangeListener(new MusicSeekBarListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress==0) {
-                    progress=1;
+                if (progress == 0) {
+                    progress = 1;
                 }
                 optionsPrefs.saveQuestionsPerQuiz(progress);
                 setQuestionsCountValues();
@@ -82,8 +205,6 @@ public class OptionsActivity extends AppCompatActivity {
         soundsPeqQuestionSeekBar.setProgress(optionsPrefs.getSoundsPerQuestion());
         soundsPerQuestionText.setText("" + optionsPrefs.getSoundsPerQuestion() + "/" + soundsPeqQuestionSeekBar.getMax());
     }
-
-
 
 
     abstract class MusicSeekBarListener implements SeekBar.OnSeekBarChangeListener {

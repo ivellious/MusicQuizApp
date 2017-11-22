@@ -5,10 +5,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/mainLinearLayout"
+        android:layout_above="@+id/logoId"
         android:layout_centerHorizontal="true"
         android:text="Sounds Quiz App"
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginBottom="10dp"/>
+    <ImageView
+        android:id="@+id/logoId"
+       android:layout_above="@+id/mainLinearLayout"
+        android:layout_width="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="80dp"
+        android:background="@mipmap/ic_launcher"/>
     <LinearLayout
         android:id="@+id/mainLinearLayout"
         android:layout_width="wrap_content"
@@ -43,6 +50,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <Button
+                android:textAllCaps="false"
+                android:text="Results"
+                android:id="@+id/resultsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

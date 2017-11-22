@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MusicQuestion {
 
-    public static String[] NOTES = {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#" };
+    public static String[] notes = {"a","a#","B","C","C#","D","D#","E","F","F#","G","G#" };
 
     List<String> answerArray;
     String correctAnswer;

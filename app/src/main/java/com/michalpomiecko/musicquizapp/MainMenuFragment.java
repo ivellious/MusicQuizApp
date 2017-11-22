@@ -16,7 +16,7 @@ import android.widget.Button;
 
 public class MainMenuFragment extends Fragment implements View.OnClickListener {
 
-    private Button buttonOne, buttonTwo, buttonThree;
+    private Button buttonOne, buttonTwo, buttonThree, resultsButton;
 
     @Nullable
     @Override
@@ -33,6 +33,9 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         buttonThree = (Button) view.findViewById(R.id.buttonThree);
         buttonThree.setOnClickListener(this);
 
+        resultsButton = (Button) view.findViewById(R.id.resultsButton);
+        resultsButton.setOnClickListener(this);
+
         return view;
     }
 
@@ -48,6 +51,9 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.buttonThree:
                 moveToActivity(OptionsActivity.class);
+                break;
+            case R.id.resultsButton:
+                moveToActivity(ResultsActivity.class);
                 break;
             default:
                 break;

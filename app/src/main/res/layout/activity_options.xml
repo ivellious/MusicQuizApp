@@ -38,6 +38,71 @@
         android:id="@+id/questionsCountBarProgress"
         android:text="1/10"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"/>
+    <TextView
+        android:layout_marginBottom="20dp"
+        android:text="Include sounds : "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <GridLayout
+        android:columnCount="6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView android:text="A"/>
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/checkA"/>
+        <TextView android:text="A#"/>
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/checkAs"/>
+        <TextView android:text="B"/>
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/checkB"/>
+        <TextView android:text="C"/>
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/checkC"/>
+        <TextView android:text="C#"/>
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/checkCs"/>
+        <TextView android:text="D"/>
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/checkD"/>
+        <TextView android:text="D#"/>
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/checkDs"/>
+        <TextView android:text="E"/>
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/checkE"/>
+        <TextView android:text="F"/>
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/checkF"/>
+        <TextView android:text="F#"/>
+        <CheckBox
+            android:id="@+id/checkFs"
+            android:checked="false"/>
+        <TextView android:text="G"/>
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/checkG"/>
+        <TextView android:text="G#"/>
+        <CheckBox
+            android:checked="false"
+            android:id="@+id/checkGs"/>
+    </GridLayout>
+
+    <TextView
+        android:textAlignment="center"
+        android:text="At least 4 sounds are required for quiz. If not enough are included , app will include them for you."
+        android:layout_width="320dp"
         android:layout_height="wrap_content"/>
 
 
