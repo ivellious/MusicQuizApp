@@ -49,8 +49,8 @@ public class OptionsActivity extends AppCompatActivity{
     }
 
     private void saveIncludedSounds() {
-        checkCheckbox(checkA,"a");
-        checkCheckbox(checkAs,"a#");
+        checkCheckbox(checkA,"A");
+        checkCheckbox(checkAs,"A#");
         checkCheckbox(checkB,"B");
         checkCheckbox(checkC,"C");
         checkCheckbox(checkCs,"C#");
@@ -110,10 +110,10 @@ public class OptionsActivity extends AppCompatActivity{
     private void initializeSoundOption(String soundString){
 
         switch (soundString) {
-            case "a":
+            case "A":
                 checkA.setChecked(true);
                 break;
-            case "a#":
+            case "A#":
                 checkAs.setChecked(true);
                 break;
             case "B":

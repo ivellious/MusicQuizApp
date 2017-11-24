@@ -70,7 +70,7 @@ public class MusicQuizAppSharedPreferences {
 
     private Set<String> getDefaultSet() {
         Set<String> set = new HashSet<>();
-        set.add("a");
+        set.add("A");
         set.add("B");
         set.add("D");
         set.add("C");

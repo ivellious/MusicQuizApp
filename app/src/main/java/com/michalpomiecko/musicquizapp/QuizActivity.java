@@ -1,6 +1,8 @@
 package com.michalpomiecko.musicquizapp;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by michal on 14.11.17.
@@ -36,6 +39,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     int quizLength = 5;
     int soundsCount = 1;
     boolean savedResult = false;
+    boolean backButtonPressedOnce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,30 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         generateQuestions();
         fillButtons();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (progressNumber == quizLength) {
+            super.onBackPressed();
+            return;
+        }
+
+        if (backButtonPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        backButtonPressedOnce = true;
+        Toast.makeText(this, "Press 'back' again to exit quiz", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                backButtonPressedOnce =false;
+            }
+        }, TimeUnit.SECONDS.toMillis(2));
     }
 
     private void getOptions() {
@@ -191,10 +219,65 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void displayResult() {
+        backButtonPressedOnce=true;
         Toast.makeText(this, "Result: " + score + "/" + quizLength, Toast.LENGTH_SHORT).show();
     }
 
     private void playSound() {
-        Toast.makeText(this, currentMusicQuestion.getCorrectAnswer(), Toast.LENGTH_SHORT).show();
+        playButton.setClickable(false);
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String[] soundsToPlay = currentMusicQuestion.getCorrectAnswer().split(":");
+                MediaPlayer mediaPlayer;
+                for (String sound : soundsToPlay) {
+                    mediaPlayer = MediaPlayer.create(getApplicationContext(), getSoundId(sound));
+                    mediaPlayer.start();
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                playButton.setClickable(true);
+            }
+        });
+
+        thread.start();
+
+    }
+
+    private int getSoundId(String sound) {
+        Log.e("current music question", currentMusicQuestion.getAnswerArray()+"");
+        Log.e("sound",sound);
+        switch (sound) {
+            case "A":
+                return R.raw.a;
+            case "A#":
+                return R.raw.as;
+            case "B":
+                return R.raw.b;
+            case "C":
+                return R.raw.c;
+            case "C#":
+                return R.raw.cs;
+            case "D":
+                return R.raw.d;
+            case "D#":
+                return R.raw.ds;
+            case "E":
+                return R.raw.e;
+            case "F":
+                return R.raw.f;
+            case "F#":
+                return R.raw.fs;
+            case "G":
+                return R.raw.g;
+            case "G#":
+                return R.raw.gs;
+            default:
+                return 0;
+        }
     }
 }
