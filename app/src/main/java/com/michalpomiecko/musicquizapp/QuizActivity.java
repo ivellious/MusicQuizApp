@@ -21,6 +21,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * Activity holding quiz functionality.
  * Created by michal on 14.11.17.
  */
 
@@ -41,6 +42,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     boolean savedResult = false;
     boolean backButtonPressedOnce;
 
+    /**
+     * Initialize views and quiz.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +76,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Inform user about leaving quiz if it's not finished. Ask user to click back button again to
+     * make sure he is informed.
+     */
     @Override
     public void onBackPressed() {
 
@@ -101,6 +110,9 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Fill buttons with answers from each question.
+     */
     private void fillButtons() {
         currentMusicQuestion = questionsArray.get(progressNumber);
         ans1.setText(currentMusicQuestion.getAnswerArray().get(0));
@@ -110,6 +122,15 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         progressText.setText("Progress: " + (progressNumber + 1) + "/" + quizLength);
     }
 
+    /**
+     * Generate questions for quiz based on options form share preferences.
+     * Make sure that:
+     * - questions number is same as in options.
+     * - sounds per questions is the same as in options.
+     * - sounds for quiz is read from options.
+     * - There are no identical answers per question.
+     * - everything is generated randomly
+     */
     private void generateQuestions() {
         questionsArray = new ArrayList<>();
 
@@ -145,11 +166,15 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Generate single answer from sounds list
+     * @param list - list of available sounds
+     * @return
+     */
     private String getAnswer(List<String> list) {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int i = 0; i < soundsCount; i++) {
-//            stringBuilder.append(OptionsActivity.notes[new Random().nextInt(OptionsActivity.notes.length)]);
             stringBuilder.append(list.get(new Random().nextInt(list.size())));
             if (soundsCount != i + 1) {
                 stringBuilder.append(":");
@@ -160,6 +185,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    /**
+     * Checking answer when clicking button.
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -184,6 +213,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Checking single answer.
+     * @param id
+     */
     private void checkAnswer(int id) {
         Button button = (Button) findViewById(id);
         if (progressNumber == quizLength-1) {
@@ -200,6 +233,9 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         progressInQuiz();
     }
 
+    /**
+     * Save result at th end of quiz
+     */
     private void saveResult() {
         StringBuilder sb = new StringBuilder();
         sb.append("Sounds count: ").append(sharedPreferences.getSoundsPerQuestion()).append(", Questions count: ").append(sharedPreferences.getQuestionsPerQuiz()).append(", Result: ").append(score).append("/").append(quizLength).append("-");
@@ -208,6 +244,9 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         savedResult=true;
     }
 
+    /**
+     * Progress in quiz and display next question
+     */
     private void progressInQuiz() {
         progressNumber++;
         if (progressNumber == quizLength) {
@@ -218,11 +257,17 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Display result at the end of quiz
+     */
     private void displayResult() {
         backButtonPressedOnce=true;
         Toast.makeText(this, "Result: " + score + "/" + quizLength, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Play sound method after clicking button. Prevent excessive usage of button.
+     */
     private void playSound() {
         playButton.setClickable(false);
 
@@ -248,6 +293,11 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Provide file sound id based on sounds name;
+     * @param sound
+     * @return
+     */
     private int getSoundId(String sound) {
         Log.e("current music question", currentMusicQuestion.getAnswerArray()+"");
         Log.e("sound",sound);

@@ -16,14 +16,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Options activity accessed through main menu of app. Allows user to change difficulty of game:
+ * number of questions per quiz, number of sounds per question and sounds included in quiz.
  * Created by michal on 20.11.17.
  */
 
-public class OptionsActivity extends AppCompatActivity{
-
-
-    public static String[] notes = {"a","a#","B","C","C#","D","D#","E","F","F#","G","G#" };
-
+public class OptionsActivity extends AppCompatActivity {
 
     CheckBox checkA, checkAs, checkB, checkC, checkCs, checkD, checkDs, checkE, checkF, checkFs, checkG, checkGs;
     TextView soundsPerQuestionText;
@@ -31,7 +29,6 @@ public class OptionsActivity extends AppCompatActivity{
     SeekBar soundsPeqQuestionSeekBar;
     SeekBar questionsPerQuizSeekBar;
     MusicQuizAppSharedPreferences optionsPrefs;
-    String [] finalNotes;
     List<String> notesOptions;
 
 
@@ -41,6 +38,9 @@ public class OptionsActivity extends AppCompatActivity{
 
     }
 
+    /**
+     * Save sounds when exiting the activity
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -48,21 +48,24 @@ public class OptionsActivity extends AppCompatActivity{
         saveIncludedSounds();
     }
 
+    /**
+     * Check which sounds have ben chosen and save the set
+     */
     private void saveIncludedSounds() {
-        checkCheckbox(checkA,"A");
-        checkCheckbox(checkAs,"A#");
-        checkCheckbox(checkB,"B");
-        checkCheckbox(checkC,"C");
-        checkCheckbox(checkCs,"C#");
-        checkCheckbox(checkD,"D");
-        checkCheckbox(checkDs,"D#");
-        checkCheckbox(checkE,"E");
-        checkCheckbox(checkF,"F");
-        checkCheckbox(checkFs,"F#");
-        checkCheckbox(checkG,"G");
-        checkCheckbox(checkGs,"G#");
+        checkCheckbox(checkA, "A");
+        checkCheckbox(checkAs, "A#");
+        checkCheckbox(checkB, "B");
+        checkCheckbox(checkC, "C");
+        checkCheckbox(checkCs, "C#");
+        checkCheckbox(checkD, "D");
+        checkCheckbox(checkDs, "D#");
+        checkCheckbox(checkE, "E");
+        checkCheckbox(checkF, "F");
+        checkCheckbox(checkFs, "F#");
+        checkCheckbox(checkG, "G");
+        checkCheckbox(checkGs, "G#");
         Set<String> set = new HashSet<>(notesOptions);
-        if (set.size() <4) {
+        if (set.size() < 4) {
             return;
         }
         optionsPrefs.saveSoundsSet(set);
@@ -76,6 +79,11 @@ public class OptionsActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Initialize options. Initialize checkBoxes, seekBars, shared preferences. Populate views from
+     * previous values form shared preferences.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +115,7 @@ public class OptionsActivity extends AppCompatActivity{
         }
     }
 
-    private void initializeSoundOption(String soundString){
+    private void initializeSoundOption(String soundString) {
 
         switch (soundString) {
             case "A":
@@ -166,6 +174,9 @@ public class OptionsActivity extends AppCompatActivity{
         checkGs = (CheckBox) findViewById(R.id.checkGs);
     }
 
+    /**
+     * Initialize seekBar listeners - minimal value of option is 1;
+     */
     private void setSeekBarListeners() {
         soundsPeqQuestionSeekBar.setOnSeekBarChangeListener(new MusicSeekBarListener() {
             @Override
@@ -206,7 +217,10 @@ public class OptionsActivity extends AppCompatActivity{
         soundsPerQuestionText.setText("" + optionsPrefs.getSoundsPerQuestion() + "/" + soundsPeqQuestionSeekBar.getMax());
     }
 
-
+    /**
+     * Abstract class implementing interface for SeekBar made for more readability, since we don't need
+     * onStartTrackingTouch() and onStopTrackingTouch() methods
+     */
     abstract class MusicSeekBarListener implements SeekBar.OnSeekBarChangeListener {
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {

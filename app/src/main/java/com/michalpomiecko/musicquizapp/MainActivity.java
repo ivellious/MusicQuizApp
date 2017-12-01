@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+/**
+ * Main activity holding menu fragment*/
 public class MainActivity extends AppCompatActivity {
 
     @Override

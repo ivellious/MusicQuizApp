@@ -1,72 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/logoId"
-        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="casual"
         android:text="Sounds Quiz App"
-        android:layout_marginBottom="10dp"/>
+        android:textSize="25sp"/>
+
     <ImageView
-        android:layout_margin="20dp"
         android:id="@+id/logoId"
-       android:layout_above="@+id/mainLinearLayout"
         android:layout_width="80dp"
-        android:layout_centerHorizontal="true"
         android:layout_height="80dp"
+        android:layout_margin="20dp"
         android:background="@mipmap/ic_launcher"/>
+
     <LinearLayout
-        android:id="@+id/mainLinearLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
-        <LinearLayout
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/buttonOne"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="Quiz"
+            android:textAllCaps="false"/>
 
-            <Button
-                android:textAllCaps="false"
-                android:id="@+id/buttonOne"
-                android:text="Quiz"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <Button
-                android:id="@+id/buttonTwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Training"
-                android:textAllCaps="false"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <Button
+            android:id="@+id/buttonTwo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/buttonThree"
-                android:textAllCaps="false"
-                android:text="Options"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:textAllCaps="false"
-                android:text="Results"
-                android:id="@+id/resultsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Training"
+            android:textAllCaps="false"/>
+    </LinearLayout>
 
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/buttonThree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Options"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/resultsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Results"
+            android:textAllCaps="false"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mainLinearLayout"
-        android:layout_centerHorizontal="true"
-        android:text="This is a sounds quiz app"
-        android:layout_marginTop="100dp"/>
-</RelativeLayout>
+        android:layout_marginTop="100dp"
+        android:text="Made by Michał Pomiećko"/>
+</LinearLayout>

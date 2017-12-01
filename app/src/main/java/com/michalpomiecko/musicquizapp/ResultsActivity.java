@@ -8,12 +8,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-/**
+/** Activity displaying results
  * Created by michal on 22.11.17.
  */
 
 public class ResultsActivity extends AppCompatActivity{
     LinearLayout resultsLayout;
+
+    /**
+     * Initialise views and display results based on String from shared preferences
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +41,11 @@ public class ResultsActivity extends AppCompatActivity{
 
     }
 
+    /**
+     * Generate text view with given text, so it can be added to linear layout.
+     * @param text
+     * @return
+     */
     private TextView generateTextView(String text) {
         TextView textView = new TextView(this);
         textView.setText(text);

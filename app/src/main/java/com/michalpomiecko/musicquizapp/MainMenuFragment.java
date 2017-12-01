@@ -12,11 +12,21 @@ import android.widget.Button;
 
 /**
  * Created by michal on 14.11.17.
+ *Fragment containing game's main menu
  */
 
 public class MainMenuFragment extends Fragment implements View.OnClickListener {
 
     private Button buttonOne, buttonTwo, buttonThree, resultsButton;
+
+
+    /**
+     * Method inflating main menu buttons
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
 
     @Nullable
     @Override
@@ -39,6 +49,11 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    /**
+     * Buttons on click interfaces
+     *
+     * @param v - clicked view
+     */
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -60,6 +75,10 @@ public class MainMenuFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**Move to another game Activity
+     *
+     * @param cls - Activity to go to
+     */
     private void moveToActivity(Class<?> cls) {
         getActivity().startActivity(new Intent(getActivity(), cls));
     }

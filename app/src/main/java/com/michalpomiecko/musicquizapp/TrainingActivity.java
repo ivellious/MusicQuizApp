@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 /**
+ * Simple activity allowing to play all the sounds used in application.
  * Created by michal on 20.11.17.
  */
 
@@ -102,6 +103,10 @@ public class TrainingActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    /**
+     * Play single sound
+     * @param id
+     */
     private void play(int id) {
         final MediaPlayer mMediaPlayer =MediaPlayer.create(this, id);
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

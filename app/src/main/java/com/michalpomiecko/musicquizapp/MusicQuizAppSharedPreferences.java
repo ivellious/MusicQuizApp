@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
+/**Shared preferences class storing and providing all necessary data for app
  * Created by michal on 20.11.17.
  */
 
@@ -16,7 +16,8 @@ public class MusicQuizAppSharedPreferences {
     public static final String SOUNDS_PER_QUESTION = "soundPerQuestion";
 
     private static final String MUSIC_APP_PREFS = "com.michal.musicquizapp.SHARED_PREFERENCES_FILE";
-
+    private static final String SOUNDS = "sounds";
+    private static final String RESULTS = "results";
     private Context context;
 
     public MusicQuizAppSharedPreferences(Context context) {
@@ -28,7 +29,6 @@ public class MusicQuizAppSharedPreferences {
         return context.getSharedPreferences(MUSIC_APP_PREFS, Context.MODE_PRIVATE);
     }
 
-    //public for now
     public SharedPreferences.Editor getSharedPreferencesEditor() {
         return getSharedPreferences().edit();
     }
@@ -51,23 +51,26 @@ public class MusicQuizAppSharedPreferences {
     }
 
     public void saveSoundsSet(Set<String> set) {
-        getSharedPreferencesEditor().putStringSet("sounds", set).commit();
+        getSharedPreferencesEditor().putStringSet(SOUNDS, set).commit();
     }
 
     public Set<String> getSoundsSet(){
-        return getSharedPreferences().getStringSet("sounds",getDefaultSet());
+        return getSharedPreferences().getStringSet(SOUNDS,getDefaultSet());
     }
 
     public String getResultsString() {
-        return getSharedPreferences().getString("results", "");
+        return getSharedPreferences().getString(RESULTS, "");
     }
 
     public void saveResult(String result) {
         String resultString = result + getResultsString();
-        getSharedPreferencesEditor().putString("results", resultString).commit();
+        getSharedPreferencesEditor().putString(RESULTS, resultString).commit();
     }
 
-
+    /**
+     * This set will be returned if options haven't been changed by user
+     * @return
+     */
     private Set<String> getDefaultSet() {
         Set<String> set = new HashSet<>();
         set.add("A");
@@ -76,9 +79,5 @@ public class MusicQuizAppSharedPreferences {
         set.add("C");
         return set;
     }
-
-
-
-    //// TODO: 18.10.17 GET TOKEN FROM SERVER AND PUT IT AS SHARED PREFERENCE
 
 }

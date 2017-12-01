@@ -6,7 +6,8 @@
               android:layout_height="match_parent">
 
     <TextView
-        android:text="Training text"
+        android:layout_marginBottom="30dp"
+        android:text="Practice sounds by playing them on your own."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
